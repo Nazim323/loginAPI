@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat Web App</title>
+  <style>
+    /* Add your CSS styles here */
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <ul id="chat-messages"></ul>
+    <input type="text" id="user-input" placeholder="Type your message">
+    <button id="send-btn">Send</button>
+  </div>
+
+  <script>
+    const chatMessages = [];
+
+    function displayMessage(message) {
+      const chatMessagesElement = document.getElementById('chat-messages');
+      const newMessageElement = document.createElement('li');
+      newMessageElement.textContent = message;
+      chatMessagesElement.appendChild(newMessageElement);
+    }
+
+    function sendMessage() {
+      const userInput = document.getElementById('user-input');
+      const message = userInput.value.trim();
+      
+      if (message !== '') {
+        chatMessages.push(message);
+        displayMessage(message);
+        userInput.value = '';
+      }
+    }
+
+    const sendButton = document.getElementById('send-btn');
+    sendButton.addEventListener('click', sendMessage);
+
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+        sendMessage();
+      }
+    });
+  </script>
+</body>
+</html>

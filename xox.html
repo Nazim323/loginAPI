@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tic Tac Toe Game</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            flex-direction: column;
+           background-color: #43a56c; /* Peach color */
+        }
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 10px;
+            width: 300px;
+        }
+
+        .cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100px;
+            height: 100px;
+            border: 1px solid #000;
+            font-size: 40px;
+            cursor: pointer;
+            background-color: #e5e5e5;
+            transition: background-color 0.3s;
+        }
+
+        .cell.X {
+            background-color: #ff847c;
+            color: #fff;
+        }
+
+        .cell.O {
+            background-color: #84a9ac;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h1>TIC TAC TOE GAME</h1>
+    <div class="board">
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const cells = document.querySelectorAll('.cell');
+            let currentPlayer = 'X';
+            let gameOver = false;
+
+            cells.forEach(cell => {
+                cell.addEventListener('click', handleCellClick);
+            });
+
+            function handleCellClick(event) {
+                const cell = event.target;
+                const cellIndex = Array.from(cells).indexOf(cell);
+
+                if (gameOver || cell.textContent !== '') {
+                    return;
+                }
+
+                cell.textContent = currentPlayer;
+                cell.classList.add(currentPlayer);
+
+                if (checkWinner(currentPlayer)) {
+                    gameOver = true;
+                    alert('Player ' + currentPlayer + ' wins!');
+                } else if (checkTie()) {
+                    gameOver = true;
+                    alert('It\'s a tie!');
+                } else {
+                    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                }
+            }
+
+            function checkWinner(player) {
+                const winningCombinations = [
+                    [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+                    [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+                    [0, 4, 8], [2, 4, 6] // Diagonals
+                ];
+
+                return winningCombinations.some(combination => {
+                    return combination.every(index => {
+                        return cells[index].textContent === player;
+                    });
+                });
+            }
+
+            function checkTie() {
+                return Array.from(cells).every(cell => {
+                    return cell.textContent !== '';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
